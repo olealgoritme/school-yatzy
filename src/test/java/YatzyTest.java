@@ -9,7 +9,7 @@ public class YatzyTest {
         assertEquals(4, 2+2);
     }
 
-    @Test
+    @Test   
     void shouldCalculateForOnes() {
     }
 }
