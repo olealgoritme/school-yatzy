@@ -16,9 +16,14 @@ class YatzyTest {
 
     @Test
     void shouldCalculateForFives() {
-        assertEquals(1, score("FIVES", new int[] {2, 5, 1, 1, 1}));
+        assertEquals(5, score("FIVES", new int[] {2, 5, 1, 1, 1}));
     }
 
+
+    @Test
+    void shouldCalculateForPairs(){
+        assertEquals(10, score("PAIRS", new int[]{2, 5, 5, 2, 1}));
+    }
 
    /*private boolean frequency(int expected, int[]dice) {
         int result = 0;
@@ -44,7 +49,7 @@ class YatzyTest {
         int result = 0;
         for (int diceValue : dice) {
             if (diceValue == categoryValue)
-                result++;
+                result+=categoryValue;
         }
         return result;
     }
