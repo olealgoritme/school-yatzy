@@ -15,36 +15,39 @@ class YatzyTest {
     }
 
     @Test
-    void shouldCalculateForTwos() {
-        assertEquals(1, score("FIVES", new int[] {2, 1, 1, 1, 1}));
+    void shouldCalculateForFives() {
+        assertEquals(1, score("FIVES", new int[] {2, 5, 1, 1, 1}));
     }
 
 
-    private boolean frequency(int expected, int[]dice) {
+   /*private boolean frequency(int expected, int[]dice) {
         int result = 0;
         for (int diceValue : dice) {
             if (diceValue == dice[diceValue])
                 result++;
         }
         return (expected == result);
-    }
+    }*/
+   private int score(String category, int[] dice) {
 
-    private int frequency(int[]dice) {
+       if(category.equals("ONES")) {
+           return frequency(1, (dice));
+       } else if(category.equals("FIVES")) {
+           return frequency(5, (dice));
+       } else{
+           return 0;
+       }
+
+   }
+
+    private int frequency(int categoryValue, int[] dice) {
         int result = 0;
         for (int diceValue : dice) {
-            if (diceValue == dice[diceValue])
+            if (diceValue == categoryValue)
                 result++;
         }
         return result;
     }
 
-    private int score(String category, int[] dice) {
-
-        if(category.equals("ONES")) {
-            return frequency((dice));
-        }
-
-        return 0;
-    }
 
 }
