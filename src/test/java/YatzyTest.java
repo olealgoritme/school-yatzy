@@ -13,58 +13,69 @@ class YatzyTest {
     }
 
     @Test
-    void shouldCalculateForOnes() {
-        assertEquals(4, score("ONES", new int[] {2, 1, 1, 1, 1}));
+    void shouldCalculateForSingles() {
+        assertArrayEquals(new int[] {5}, calculateScoreFromDiceResult(YATZY_TYPE.SINGLES, new int[] {1, 2, 3, 4, 5}));
+        assertArrayEquals(new int[] {6}, calculateScoreFromDiceResult(YATZY_TYPE.SINGLES, new int[] {1, 2, 4, 5, 6}));
     }
 
     @Test
-    void shouldCalculateForFives() {
-        assertEquals(5, score("FIVES", new int[] {2, 5, 1, 1, 1}));
+    void shouldCalculateForMultiple() {
+        assertArrayEquals(new int[] {2, 5}, calculateScoreFromDiceResult(YATZY_TYPE.PAIR, new int[] {2, 5, 5, 2, 1}));
+        assertArrayEquals(new int[] {5, 5, 5}, calculateScoreFromDiceResult(YATZY_TYPE.TRIPLET, new int[] {2, 5, 5, 5, 1}));
+        assertArrayEquals(new int[] {6, 6, 6, 6}, calculateScoreFromDiceResult(YATZY_TYPE.QUADRUPLE, new int[] {2, 6, 6, 6, 6}));
     }
 
-    @Test
-    void shouldCalculateForPairs(){
-        assertArrayEquals(new int[] {2, 5}, pairsOf(new int[]{2, 5, 5, 2, 1}, 2));
+    private enum YATZY_TYPE {
+        SINGLES(1),
+        PAIR(2),
+        TRIPLET(3),
+        QUADRUPLE(4);
+
+        private int frequency;
+        YATZY_TYPE(int frequency) {
+            this.frequency = frequency;
+        }
     }
 
-    @Test
-    void shouldCalculateForLikes(){
-        assertArrayEquals(new int[]{5, 5, 5}, pairsOf(new int[]{2, 5, 5, 5, 1}, 3));
-        assertArrayEquals(new int[]{6, 6, 6, 6}, pairsOf(new int[]{2, 6, 6, 6, 6}, 4));
+    private int[] calculateScoreFromDiceResult(YATZY_TYPE dice_type, int[] dice) {
+        return digitCounter(dice, dice_type);
     }
 
-    int[] pairsOf(int[] dice, int checkFor) {
+    int[] digitCounter(int[] diceArray, YATZY_TYPE dice_type) {
 
-        ArrayList<Integer> pairs = new ArrayList<Integer>();
+        ArrayList<Integer> frequencyList = new ArrayList<Integer>();
 
         int count = 0;
 
-        for (int y = 0; y < dice.length; y++) {
-            int current = dice[y];
+        for (int y = 0; y < diceArray.length; y++) {
+            int currentDice = diceArray[y];
 
-            for (int i = y + 1; i < dice.length; i++) {
+            for (int i = y + 1; i < diceArray.length; i++) {
 
-                if (dice[i] == current) {
-                    if (checkFor == 2 && count != 2) {
-                        pairs.add(current);
+                if (diceArray[i] == currentDice) {
+                    if (dice_type.frequency == 2 && count != 2) {
+                        // We have a pair!
+                        frequencyList.add(currentDice);
                         count++;
                     }
-                    if(checkFor == 3 && count != 3){
-                        pairs.add(current);
+                    if(dice_type.frequency == 3 && count != 3){
+                        // We have a triplet!
+                        frequencyList.add(currentDice);
                         count++;
                     }
-                    if(checkFor == 4 && count != 4){
-                        pairs.add(current);
+                    if(dice_type.frequency == 4 && count != 4){
+                        // We have a quadruplet
+                        frequencyList.add(currentDice);
                         count++;
                     }
                 }
 
             }
         }
-        return getInts(pairs);
-        }
+        return getBestInts(frequencyList, dice_type);
+    }
 
-    private int[] getInts(ArrayList<Integer> pairs) {
+    private int[] getBestInts(ArrayList<Integer> pairs, YATZY_TYPE dice_type) {
         int pos = 0;
         int[] p = new int[pairs.size()];
         for (int i : pairs) {
@@ -73,28 +84,5 @@ class YatzyTest {
         }
         return p;
     }
-
-
-    private int score(String category, int[] dice) {
-
-       if(category.equals("ONES")) {
-           return frequency(1, (dice));
-       } else if(category.equals("FIVES")) {
-           return frequency(5, (dice));
-       } else{
-           return 0;
-       }
-
-   }
-
-    private int frequency(int categoryValue, int[] dice) {
-        int result = 0;
-        for (int diceValue : dice) {
-            if (diceValue == categoryValue)
-                result+=categoryValue;
-        }
-        return result;
-    }
-
 
 }
