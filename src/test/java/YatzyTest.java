@@ -27,6 +27,11 @@ class YatzyTest {
         assertArrayEquals(new int[] {2, 5}, pairsOf(new int[]{2, 5, 5, 2, 1}));
     }
 
+    @Test
+    void shouldCalculateForThreesome(){
+        assertArrayEquals(new int[] {2, 5}, pairsOf(new int[]{2, 5, 5, 2, 1}));
+    }
+
     int[] pairsOf(int[] dice) {
         // returns array of digits that have pairs (2 equal values)
         ArrayList<Integer> pairs = new ArrayList<Integer>();
