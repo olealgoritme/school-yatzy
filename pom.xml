@@ -5,12 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.lemon</groupId>
-    <artifactId>school-yatzy</artifactId>
+    <artifactId>schoolyatzy</artifactId>
     <version>0.1</version>
-
-
+    <packaging>jar</packaging>
     <dependencies>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -39,11 +37,20 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.lemon.schoolyatzy.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <properties>
         <encoding>utf-8</encoding>
     </properties>
-
-
 </project>
