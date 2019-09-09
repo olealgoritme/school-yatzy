@@ -14,15 +14,15 @@ class YatzyTest {
 
     @Test
     void shouldCalculateForSingles() {
-        assertArrayEquals(new int[] {5}, calculateScoreFromDiceResult(YATZY_TYPE.SINGLES, new int[] {1, 2, 3, 4, 5}));
-        assertArrayEquals(new int[] {6}, calculateScoreFromDiceResult(YATZY_TYPE.SINGLES, new int[] {1, 2, 4, 5, 6}));
+        assertEquals(5, calculateScoreFromDiceResult(YATZY_TYPE.SINGLES, new int[] {1, 2, 3, 4, 5}));
+        assertEquals(6, calculateScoreFromDiceResult(YATZY_TYPE.SINGLES, new int[] {1, 2, 4, 5, 6}));
     }
 
     @Test
     void shouldCalculateForMultiple() {
-        assertArrayEquals(new int[] {2, 5}, calculateScoreFromDiceResult(YATZY_TYPE.PAIR, new int[] {2, 5, 5, 2, 1}));
-        assertArrayEquals(new int[] {5, 5, 5}, calculateScoreFromDiceResult(YATZY_TYPE.TRIPLET, new int[] {2, 5, 5, 5, 1}));
-        assertArrayEquals(new int[] {6, 6, 6, 6}, calculateScoreFromDiceResult(YATZY_TYPE.QUADRUPLE, new int[] {2, 6, 6, 6, 6}));
+        assertEquals(14, calculateScoreFromDiceResult(YATZY_TYPE.PAIR, new int[] {2, 5, 5, 2, 1}));
+        assertEquals(15, calculateScoreFromDiceResult(YATZY_TYPE.TRIPLET, new int[] {2, 5, 5, 5, 1}));
+        assertEquals(24, calculateScoreFromDiceResult(YATZY_TYPE.QUADRUPLE, new int[] {2, 6, 6, 6, 6}));
     }
 
     private enum YATZY_TYPE {
@@ -37,48 +37,68 @@ class YatzyTest {
         }
     }
 
-    private int[] calculateScoreFromDiceResult(YATZY_TYPE dice_type, int[] dice) {
-        return digitCounter(dice, dice_type);
+    private int calculateScoreFromDiceResult(YATZY_TYPE dice_type, int[] diceThrow) {
+        int score = 0;
+
+        if(dice_type == YATZY_TYPE.SINGLES){
+           for(int i : singlesCounter(diceThrow)){
+               score += i;
+           }
+        } else if(dice_type == YATZY_TYPE.PAIR || dice_type == YATZY_TYPE.TRIPLET || dice_type == YATZY_TYPE.QUADRUPLE){
+            for(int i : digitCounter(diceThrow, dice_type)){
+                score +=i;
+            }
+        }
+        return score;
+    }
+
+    int[] singlesCounter(int[] diceArray){
+        ArrayList<Integer> frequencyList = new ArrayList<>();
+        int highestNum = 0;
+
+        for(int ints : diceArray){
+            if(highestNum<ints){
+                highestNum = ints;
+            }
+        }
+        for(int ints : diceArray){
+            if(ints == highestNum){
+                frequencyList.add(highestNum);
+            }
+        }
+
+        return getBestInts(frequencyList, YATZY_TYPE.SINGLES);
     }
 
     int[] digitCounter(int[] diceArray, YATZY_TYPE dice_type) {
 
-        ArrayList<Integer> frequencyList = new ArrayList<Integer>();
+        ArrayList<Integer> frequencyList = new ArrayList<>();
 
         int count = 0;
 
-        for (int y = 0; y < diceArray.length; y++) {
-            int currentDice = diceArray[y];
+            for (int i = 0; i < diceArray.length; i++) {
+                int currentDice = diceArray[i];
+                    for (int y = i + 1; y < diceArray.length; y++) {
+                        if (diceArray[y] == currentDice) {
 
-            for (int i = y + 1; i < diceArray.length; i++) {
-
-                if (diceArray[i] == currentDice) {
-                    if (dice_type.frequency == 2 && count != 2) {
-                        // We have a pair!
-                        frequencyList.add(currentDice);
-                        count++;
-                    }
-                    if(dice_type.frequency == 3 && count != 3){
-                        // We have a triplet!
-                        frequencyList.add(currentDice);
-                        count++;
-                    }
-                    if(dice_type.frequency == 4 && count != 4){
-                        // We have a quadruplet
-                        frequencyList.add(currentDice);
-                        count++;
+                        //Adds like values to arrayList
+                            if (count != dice_type.frequency) {
+                                frequencyList.add(currentDice);
+                                count++;
+                            }
+                        }
                     }
                 }
 
-            }
-        }
         return getBestInts(frequencyList, dice_type);
+
     }
 
-    private int[] getBestInts(ArrayList<Integer> pairs, YATZY_TYPE dice_type) {
+
+    private int[] getBestInts(ArrayList<Integer> resultList, YATZY_TYPE dice_type) {
         int pos = 0;
-        int[] p = new int[pairs.size()];
-        for (int i : pairs) {
+        int[] p = new int[resultList.size()];
+        for (int i : resultList) {
             p[pos] = i;
             pos++;
         }
