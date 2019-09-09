@@ -24,29 +24,47 @@ class YatzyTest {
 
     @Test
     void shouldCalculateForPairs(){
-        assertArrayEquals(new int[] {2, 5}, pairsOf(new int[]{2, 5, 5, 2, 1}));
+        assertArrayEquals(new int[] {2, 5}, pairsOf(new int[]{2, 5, 5, 2, 1}, 2));
     }
 
     @Test
-    void shouldCalculateForThreesome(){
-        assertArrayEquals(new int[] {2, 5}, pairsOf(new int[]{2, 5, 5, 2, 1}));
+    void shouldCalculateForLikes(){
+        assertArrayEquals(new int[]{5, 5, 5}, pairsOf(new int[]{2, 5, 5, 5, 1}, 3));
+        assertArrayEquals(new int[]{6, 6, 6, 6}, pairsOf(new int[]{2, 6, 6, 6, 6}, 4));
     }
 
-    int[] pairsOf(int[] dice) {
-        // returns array of digits that have pairs (2 equal values)
+    int[] pairsOf(int[] dice, int checkFor) {
+
         ArrayList<Integer> pairs = new ArrayList<Integer>();
 
-        for(int y = 0; y < dice.length; y++) {
-            int current = dice[y];
-            int pos = y;
+        int count = 0;
 
-            for(int i = pos+1; i < dice.length; i++) {
-                if(dice[i] == current) {
-                    // we have a fucking match
-                    pairs.add(current);
+        for (int y = 0; y < dice.length; y++) {
+            int current = dice[y];
+
+            for (int i = y + 1; i < dice.length; i++) {
+
+                if (dice[i] == current) {
+                    if (checkFor == 2 && count != 2) {
+                        pairs.add(current);
+                        count++;
+                    }
+                    if(checkFor == 3 && count != 3){
+                        pairs.add(current);
+                        count++;
+                    }
+                    if(checkFor == 4 && count != 4){
+                        pairs.add(current);
+                        count++;
+                    }
                 }
+
             }
         }
+        return getInts(pairs);
+        }
+
+    private int[] getInts(ArrayList<Integer> pairs) {
         int pos = 0;
         int[] p = new int[pairs.size()];
         for (int i : pairs) {
