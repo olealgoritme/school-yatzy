@@ -29,14 +29,26 @@ class YatzyTest {
         assertEquals(24, calculateScoreFromDiceResult(new int[] {2, 6, 6, 6, 6}, YATZY_TYPE.QUADRUPLE));
     }
 
+    @Test
+    void shouldCalculateForSmallStraight(){
+        assertEquals(15, calculateScoreFromDiceResult(new int[] {1, 2, 3, 4, 5}, YATZY_TYPE.SMALL_STRAIGHT));
+    }
+
     private enum YATZY_TYPE {
         SINGLES(1),
         PAIR(2),
         TRIPLET(3),
-        QUADRUPLE(4);
+        QUADRUPLE(4),
+        SMALL_STRAIGHT();
+
+        YATZY_TYPE(){
+
+        }
 
         YATZY_TYPE(int frequency) {
         }
+
+
     }
 
     private void increaseScore(int score) {
