@@ -2,10 +2,10 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static java.util.Arrays.sort;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class YatzyTest {
@@ -62,15 +62,35 @@ class YatzyTest {
     private int calculateScoreFromDiceResult(int[] diceThrow, YATZY_TYPE yatzyType) {
         int result = 0;
 
-        if(yatzyType == YATZY_TYPE.SINGLES){
+        if(yatzyType == YATZY_TYPE.SINGLES) {
             result = calculateSingles(diceThrow);
-        }else {
+        } else if(yatzyType == YATZY_TYPE.SMALL_STRAIGHT){
+            result = calculateSmallStraight(diceThrow, yatzyType);
+        } else {
             result = calculateLikes(diceThrow, yatzyType);
         }
+
         increaseScore(result);
         return result;
     }
 
+    private int calculateSmallStraight(int[] diceThrow, YATZY_TYPE yatzyType) {
+        Arrays.sort(diceThrow);
+
+        int score = 0;
+        for(int i = 0; i < diceThrow.length; i++){
+            try {
+                //Checks if dices are sequential(?word?)
+                if((diceThrow[i]+1) == diceThrow[i+1]){
+                    score += diceThrow[i];
+                }
+            } catch (ArrayIndexOutOfBoundsException e){
+                score += diceThrow[i];
+            }
+        }
+        //As it runs now, this will work for Large Straights as well.
+        return score;
+    }
 
     private int calculateSingles(int [] diceThrow){
         List<Integer> intList = new ArrayList<>();
@@ -78,9 +98,12 @@ class YatzyTest {
         int occurences;
         int highestOccurencySum = 0;
 
+        //Finds the frequency of each die in the throw and calculates the sum of it
+        //The one that provides the highest score will be returned as the score
         for(int die : intList){
             occurences = Collections.frequency(intList, die);
             int sumOfCurrentDie = die*occurences;
+
             if(highestOccurencySum<sumOfCurrentDie){
                 highestOccurencySum = sumOfCurrentDie;
             }
