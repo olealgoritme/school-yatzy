@@ -51,8 +51,8 @@ class Yatzy {
         List<Integer> intList = new ArrayList<>();
         for (int i : diceThrow) intList.add(i);
         int max = Collections.max(intList);
-        int occurences = Collections.frequency(intList, max);
-        return (max * occurences);
+        int occurrences = Collections.frequency(intList, max);
+        return (max * occurrences);
     }
 
     /**
