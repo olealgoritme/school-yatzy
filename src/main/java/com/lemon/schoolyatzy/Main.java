@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *  TIP!
+ *  HOT TIP!
  *  Compile: "mvn clean package"
  *  Run: java -jar target/schoolyatzy-0.1.jar
  *
@@ -14,11 +14,12 @@ public class Main {
     public static void main(String[] args) {
 
         Map<int[], Yatzy.YATZY_TYPE> plays = new HashMap<>() {{
-            put(new int[]{1, 2, 3, 4, 5}, Yatzy.YATZY_TYPE.SINGLES);
-            put(new int[]{1, 2, 4, 5, 6}, Yatzy.YATZY_TYPE.SINGLES);
-            put(new int[]{2, 5, 5, 2, 1}, Yatzy.YATZY_TYPE.PAIR);
-            put(new int[]{2, 5, 5, 5, 1}, Yatzy.YATZY_TYPE.TRIPLET);
+            put(new int[]{6, 6, 6, 6, 6}, Yatzy.YATZY_TYPE.YATZY);
+            put(new int[]{4, 4, 5, 5, 4}, Yatzy.YATZY_TYPE.HOUSE);
             put(new int[]{2, 6, 6, 6, 6}, Yatzy.YATZY_TYPE.QUADRUPLE);
+            put(new int[]{2, 5, 5, 5, 1}, Yatzy.YATZY_TYPE.TRIPLET);
+            put(new int[]{2, 5, 5, 2, 1}, Yatzy.YATZY_TYPE.PAIR);
+            put(new int[]{1, 2, 4, 5, 6}, Yatzy.YATZY_TYPE.SINGLES);
         }};
 
         Yatzy yatzy = new Yatzy();

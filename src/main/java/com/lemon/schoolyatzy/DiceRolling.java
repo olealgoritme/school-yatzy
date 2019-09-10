@@ -30,22 +30,19 @@ class DiceRolling {
     void animate() {
         switch (anim) {
             case 1:
+
+            case 6:
                 print("[ | ]");
                 break;
             case 2:
                 print("[ / ]");
                 break;
             case 3:
+            case 5:
                 print("[ - ]");
                 break;
             case 4:
                 print("[ \\ ]");
-                break;
-            case 5:
-                print("[ - ]");
-                break;
-            case 6:
-                print("[ | ]");
                 break;
             default:
                 anim = 0;
